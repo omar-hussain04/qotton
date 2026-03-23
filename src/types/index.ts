@@ -1,0 +1,33 @@
+export interface ColorOption {
+  name: string;
+  hex: string;
+  stock: number;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  price: number;
+  originalPrice?: number;
+  discount?: number;
+  images: string[];
+  colors: ColorOption[];
+  sizes: string[];
+  description: string;
+  category: string;
+  tags: string[];
+  rating: number;
+  reviewsCount: number;
+  isNew: boolean;
+  inStock: boolean;
+}
+
+export interface CartItem {
+  id: string; // unique ID constructed from productId-color-size
+  productId: string;
+  quantity: number;
+  selectedColor: string;
+  selectedSize: string;
+  product: Product;
+}
