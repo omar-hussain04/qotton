@@ -50,6 +50,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
               src={activeImage}
               alt={product.name}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
               priority
             />
@@ -72,7 +73,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                   activeImage === img ? "border-accent" : "border-transparent opacity-70 hover:opacity-100"
                 )}
               >
-                <Image src={img} alt={`${product.name} - صورة ${i+1}`} fill className="object-cover" />
+                <Image src={img} alt={`${product.name} - صورة ${i+1}`} fill sizes="(max-width: 768px) 25vw, 15vw" className="object-cover" />
               </button>
             ))}
           </div>
@@ -84,9 +85,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
           <h1 className="font-heading text-3xl md:text-5xl text-text font-bold mb-4">{product.name}</h1>
           
           <div className="flex items-end gap-4 mb-6">
-            <span className="font-numbers text-3xl text-accent font-bold">{product.price} ر.س</span>
+            <span className="font-numbers text-3xl text-accent font-bold">{product.price} د.أ</span>
             {product.originalPrice && (
-              <span className="font-numbers text-lg text-muted line-through mb-1.5">{product.originalPrice} ر.س</span>
+              <span className="font-numbers text-lg text-muted line-through mb-1.5">{product.originalPrice} د.أ</span>
             )}
             {product.discount && (
               <Badge variant="destructive" className="mb-1.5">خصم %{product.discount}</Badge>
@@ -178,7 +179,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
               <Truck className="text-accent h-6 w-6" />
               <div>
                 <div className="font-medium text-text text-sm mb-0.5">شحن مجاني</div>
-                <div className="text-xs text-muted">للطلبات فوق ٣٩٩ ر.س</div>
+                <div className="text-xs text-muted">للطلبات فوق ٥٠ د.أ</div>
               </div>
             </div>
             <div className="flex items-center gap-3 p-4 rounded-sm bg-surface border border-border/50">

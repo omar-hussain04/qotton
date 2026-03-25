@@ -3,10 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart } from "lucide-react";
 import { Product } from "@/types";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
 import { useWishlistStore } from "@/store/useWishlistStore";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const { toggleItem, hasItem } = useWishlistStore();
   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -34,6 +34,7 @@ export function ProductCard({ product }: ProductCardProps) {
           src={product.images[0]}
           alt={product.name}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         
@@ -54,14 +55,6 @@ export function ProductCard({ product }: ProductCardProps) {
           <Heart className={cn("h-4 w-4 transition-colors", isFavorited ? "fill-accent text-accent" : "")} />
           <span className="sr-only">أضف للمفضلة</span>
         </button>
-
-        {/* Quick Add Button - Appears on Hover */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-20">
-          <Button className="w-full gap-2 shadow-dark">
-            <ShoppingCart className="h-4 w-4" />
-            أضف للسلة
-          </Button>
-        </div>
       </div>
 
       <div className="flex flex-col flex-1 p-4 pb-5">
@@ -75,11 +68,11 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Price */}
         <div className="mt-auto flex items-center gap-3">
           <span className="font-numbers text-xl font-bold text-accent">
-            {product.price} ر.س
+            {product.price} د.أ
           </span>
           {product.originalPrice && (
             <span className="font-numbers text-sm text-muted line-through">
-              {product.originalPrice} ر.س
+              {product.originalPrice} د.أ
             </span>
           )}
         </div>

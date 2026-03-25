@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Products: Publicly readable by everyone, but only editable via Firebase Console (Admin)
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    // 2. Orders:
+    // - Anyone can create an order (Guests + Logged in users)
+    // - Only the owner (logged-in user) can read their own orders
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow update, delete: if false;
+    }
+    
+    // 3. Contact Messages: Anyone can submit a message, but nobody can read them from the frontend
+    match /messages/{messageId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+    
+    // 4. Users: (If you add user profiles later) users can manage their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

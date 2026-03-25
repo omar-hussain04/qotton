@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -8,30 +10,33 @@ export default function Home() {
     <div className="relative w-full">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=2000&auto=format&fit=crop" 
-            alt="Qotton Hero" 
-            className="w-full h-full object-cover opacity-30"
+        <div className="absolute inset-0 z-0 bg-primary">
+          <Image
+            src="/product/main.png"
+            alt="Qotton Hero"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_50%] opacity-50"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent" />
         </div>
-        
-        <Container className="relative z-10 text-center py-20 flex flex-col items-center">
-          <span className="text-accent tracking-widest text-sm md:text-base mb-4 font-medium uppercase">خيطٌ يَنسجُ لأثرٍ يَبقى</span>
-          <h1 className="font-heading text-6xl md:text-8xl lg:text-9xl text-text font-bold mb-6 drop-shadow-2xl">
-            قطن
-          </h1>
-          <p className="text-xl md:text-2xl text-text max-w-2xl mx-auto opacity-90 mb-10 leading-relaxed">
-            هوديات بملمس الفخامة وتفاصيل الأصالة — لتُرافقك في كل لحظة وتمنحك الدفء بأناقة.
+
+        <Container className="relative z-10 text-center pt-[55vh] md:pt-[65vh] pb-16 flex flex-col items-center">
+          <p className="text-xl md:text-2xl text-text max-w-2xl mx-auto opacity-90 mb-4 leading-relaxed">
+            هوديات بملمس الفخامة وتفاصيل الأصالة
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="text-lg px-8 py-6 rounded-full font-bold">
-              اكتشف المجموعة
-            </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-6 rounded-full font-bold">
-              تسوّق الآن
-            </Button>
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-6 max-w-sm sm:max-w-none">
+            <Link href="/products" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full text-lg px-8 py-6 rounded-full font-bold shadow-xl shadow-accent/20 hover:scale-105 transition-transform duration-300">
+                اكتشف المجموعة
+              </Button>
+            </Link>
+            <Link href="/products" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full text-lg px-8 py-6 rounded-full font-bold bg-background/50 backdrop-blur-md hover:bg-background border-2 shadow-lg hover:scale-105 transition-transform duration-300">
+                تسوّق الآن
+              </Button>
+            </Link>
           </div>
         </Container>
       </section>
@@ -44,17 +49,21 @@ export default function Home() {
               <span className="text-accent tracking-wider text-sm font-medium mb-2 block">المجموعة الأحدث</span>
               <h2 className="font-heading text-4xl md:text-5xl text-text">تألق بأصالة</h2>
             </div>
-            <Button variant="link" className="hidden sm:inline-flex">عرض الكل</Button>
+            <Link href="/products" className="hidden sm:inline-flex text-accent hover:text-accent-light font-medium transition-colors">
+              عرض الكل &larr;
+            </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {mockProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-          
+
           <div className="mt-8 text-center sm:hidden">
-            <Button variant="outline" className="w-full">عرض الكل</Button>
+            <Link href="/products" className="w-full block">
+              <Button variant="outline" className="w-full py-6 rounded-xl font-bold">عرض الكل</Button>
+            </Link>
           </div>
         </Container>
       </section>
@@ -63,7 +72,7 @@ export default function Home() {
       <section className="py-24 bg-surface border-y border-border relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-        
+
         <Container className="relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-heading text-4xl md:text-5xl text-accent mb-8">نسج من الأصالة</h2>

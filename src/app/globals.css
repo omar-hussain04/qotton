@@ -9,8 +9,8 @@
   --color-muted: #8B6A4A;
   --color-border: rgba(201, 150, 58, 0.25);
   
-  --font-heading: var(--font-noto-naskh), serif;
-  --font-body: var(--font-noto-sans), sans-serif;
+  --font-heading: var(--font-hikayat), serif;
+  --font-body: var(--font-lyon), sans-serif;
   --font-numbers: var(--font-cormorant), serif;
   
   --radius-sm: 4px;

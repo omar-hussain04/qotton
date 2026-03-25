@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Search as SearchIcon, X } from "lucide-react";
-import { Product } from "@/types";
 import { mockProducts } from "@/lib/data";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,21 +13,15 @@ interface SearchModalProps {
 
 export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Product[]>([]);
 
-  useEffect(() => {
-    if (query.trim().length > 1) {
-      const lowerQuery = query.toLowerCase();
-      const filtered = mockProducts.filter(p => 
+  const lowerQuery = query.toLowerCase();
+  const results = query.trim().length > 1 
+    ? mockProducts.filter(p => 
         p.name.toLowerCase().includes(lowerQuery) || 
         p.category.toLowerCase().includes(lowerQuery) ||
         p.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
-      );
-      setResults(filtered);
-    } else {
-      setResults([]);
-    }
-  }, [query]);
+      )
+    : [];
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -73,11 +66,11 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     className="flex items-center gap-4 p-3 hover:bg-background rounded-lg border border-transparent hover:border-border transition-all group"
                   >
                     <div className="relative w-16 h-16 rounded-md overflow-hidden bg-background">
-                      <Image src={product.images[0]} alt={product.name} fill className="object-cover group-hover:scale-105 transition-transform" />
+                      <Image src={product.images[0]} alt={product.name} fill sizes="80px" className="object-cover group-hover:scale-105 transition-transform" />
                     </div>
                     <div>
                       <h4 className="font-heading font-bold text-text mb-1">{product.name}</h4>
-                      <p className="text-accent font-numbers">{product.price} ر.س</p>
+                      <p className="text-accent font-numbers">{product.price} د.أ</p>
                     </div>
                   </Link>
                 ))}

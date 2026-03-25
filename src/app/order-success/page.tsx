@@ -1,9 +1,22 @@
+"use client";
+
 import { Container } from "@/components/ui/Container";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
-export default function OrderSuccessPage() {
-  const orderNumber = Math.floor(100000 + Math.random() * 900000);
+function SuccessContent() {
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get("orderId");
+  const [orderNumber, setOrderNumber] = useState(orderId || "");
+
+  useEffect(() => {
+    if (!orderId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setOrderNumber(Math.floor(100000 + Math.random() * 900000).toString());
+    }
+  }, [orderId]);
 
   return (
     <Container className="py-20 max-w-2xl text-center">
@@ -11,12 +24,12 @@ export default function OrderSuccessPage() {
         <CheckCircle2 className="h-24 w-24 text-accent mb-6" />
         <h1 className="font-heading text-4xl md:text-5xl text-text font-bold mb-4">تم تأكيد طلبك بنجاح!</h1>
         <p className="text-lg text-muted mb-8 text-balance">
-          شكراً لتسوقك من قطن. سيتم تجهيز طلبك قريباً والتواصل معك من قبل مندوب التوصيل.
+          شكراً لتسوقك من قطن. سيتم تجهيز طلبك قريباً والتواصل معك من قبل فريقنا.
         </p>
         
         <div className="bg-background border border-border rounded-lg p-6 w-full max-w-sm mb-10">
-          <div className="text-sm text-muted mb-2">رقم الطلب</div>
-          <div className="font-numbers text-3xl font-bold text-accent">#{orderNumber}</div>
+          <div className="text-sm text-muted mb-2">رقم الطلب (معرف فايربيس)</div>
+          <div className="font-numbers text-xl font-bold text-accent break-all">{orderNumber}</div>
         </div>
 
         <Link 
@@ -27,5 +40,13 @@ export default function OrderSuccessPage() {
         </Link>
       </div>
     </Container>
+  );
+}
+
+export default function OrderSuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center">جاري التحميل...</div>}>
+      <SuccessContent />
+    </Suspense>
   );
 }

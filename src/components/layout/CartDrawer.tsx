@@ -14,12 +14,13 @@ export function CartDrawer() {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity } = useCartStore();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
   if (!mounted) return null;
 
-  const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const total = items.reduce((sum, item) => sum + ((item?.product?.price || 0) * item.quantity), 0);
 
   const handleCheckout = () => {
     setIsOpen(false);
@@ -68,12 +69,16 @@ export function CartDrawer() {
             items.map((item) => (
               <div key={item.id} className="flex gap-4 p-3 bg-background rounded-lg border border-border/50 shadow-sm relative group">
                 <div className="relative w-24 h-28 rounded-md overflow-hidden flex-shrink-0 bg-surface">
-                  <Image src={item.product.images[0]} alt={item.product.name} fill className="object-cover" />
+                  {item?.product?.images?.[0] ? (
+                    <Image src={item.product.images[0]} alt={item?.product?.name || "Product"} fill sizes="80px" className="object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-border/50 flex items-center justify-center text-center p-2 text-xs text-muted">بدون صورة / قديم</div>
+                  )}
                 </div>
                 
                 <div className="flex-1 flex flex-col py-1">
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-medium text-text text-sm line-clamp-1">{item.product.name}</h3>
+                    <h3 className="font-medium text-text text-sm line-clamp-1">{item?.product?.name || "منتج غير معروف"}</h3>
                     <button 
                       onClick={() => removeItem(item.id)}
                       className="text-muted hover:text-red-500 transition-colors p-1"
@@ -89,7 +94,7 @@ export function CartDrawer() {
                   </div>
                   
                   <div className="flex items-center justify-between mt-3">
-                    <div className="font-numbers text-accent font-bold">{item.product.price} ر.س</div>
+                    <div className="font-numbers text-accent font-bold">{item?.product?.price || 0} د.أ</div>
                     
                     <div className="flex items-center gap-2 bg-surface rounded-full border border-border p-1">
                       <button 
@@ -118,7 +123,7 @@ export function CartDrawer() {
           <div className="p-4 border-t border-border bg-surface">
             <div className="flex items-center justify-between mb-4">
               <span className="text-text font-medium">المجموع</span>
-              <span className="font-numbers text-xl font-bold text-accent">{total} ر.س</span>
+              <span className="font-numbers text-xl font-bold text-accent">{total} د.أ</span>
             </div>
             <p className="text-xs text-muted mb-4 text-center">الشحن والضرائب تُحسب عند الدفع</p>
             <Button className="w-full text-lg py-6 shadow-dark gap-2" onClick={handleCheckout}>

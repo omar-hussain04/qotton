@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 
 export function Footer() {
@@ -8,7 +9,7 @@ export function Footer() {
         <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <span className="font-heading text-4xl text-accent font-bold">قطن</span>
+              <Image src="/qottonlogo2.png" alt="قطن" width={100} height={40} className="h-10 w-auto object-contain" />
             </Link>
             <p className="text-muted text-lg max-w-sm mb-6">
               خيطٌ يَنسجُ لأثرٍ يَبقى. هوديات مصنوعة بعناية لتُرافقك في كل لحظة، تجمع بين الأصالة والفخامة.
@@ -28,9 +29,9 @@ export function Footer() {
           <div>
             <h3 className="font-heading text-xl text-text font-semibold mb-4">تواصل معنا</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-muted hover:text-accent transition-colors">انستقرام</a></li>
-              <li><a href="#" className="text-muted hover:text-accent transition-colors">تيك توك</a></li>
-              <li><a href="#" className="text-muted hover:text-accent transition-colors">واتساب</a></li>
+              <li><a href="https://www.instagram.com/qottonjo/" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-accent transition-colors">انستقرام</a></li>
+              <li><a href="https://www.facebook.com/profile.php?id=61584455722091" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-accent transition-colors">فيسبوك</a></li>
+              <li><a href="https://wa.me/qr/ROGVEF7USBOCJ1" target="_blank" rel="noopener noreferrer" className="text-muted hover:text-accent transition-colors">واتساب</a></li>
             </ul>
           </div>
         </div>
