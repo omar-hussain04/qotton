@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { CURRENCY } from "@/lib/constants";
 
 export function CartDrawer() {
   const [mounted, setMounted] = useState(false);
@@ -14,13 +15,14 @@ export function CartDrawer() {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity } = useCartStore();
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  const total = useMemo(() => 
+    items.reduce((sum, item) => sum + ((item?.product?.price || 0) * item.quantity), 0),
+  [items]);
 
-  const total = items.reduce((sum, item) => sum + ((item?.product?.price || 0) * item.quantity), 0);
+  if (!mounted) return null;
 
   const handleCheckout = () => {
     setIsOpen(false);
@@ -123,7 +125,7 @@ export function CartDrawer() {
           <div className="p-4 border-t border-border bg-surface">
             <div className="flex items-center justify-between mb-4">
               <span className="text-text font-medium">المجموع</span>
-              <span className="font-numbers text-xl font-bold text-accent">{total} د.أ</span>
+              <span className="font-numbers text-xl font-bold text-accent">{total} {CURRENCY}</span>
             </div>
             <p className="text-xs text-muted mb-4 text-center">الشحن والضرائب تُحسب عند الدفع</p>
             <Button className="w-full text-lg py-6 shadow-dark gap-2" onClick={handleCheckout}>

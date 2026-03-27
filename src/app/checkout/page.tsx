@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { ChevronRight, Banknote, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { CURRENCY, FREE_SHIPPING_THRESHOLD, SHIPPING_COST } from "@/lib/constants";
 
 export default function CheckoutPage() {
   const [mounted, setMounted] = useState(false);
@@ -24,7 +25,6 @@ export default function CheckoutPage() {
   const [profileLoaded, setProfileLoaded] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -36,18 +36,12 @@ export default function CheckoutPage() {
           const { getUserProfile } = await import("@/lib/db");
           const profile = await getUserProfile(user.uid);
           if (profile) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             if (profile.firstName) setFirstName(profile.firstName);
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             if (profile.lastName) setLastName(profile.lastName);
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             if (profile.phone) setPhone(profile.phone);
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             if (profile.city) setCity(profile.city);
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             if (profile.address) setAddress(profile.address);
           }
-          // eslint-disable-next-line react-hooks/set-state-in-effect
           setProfileLoaded(true);
         } catch (error) {
           console.error("Error loading profile:", error);
@@ -58,7 +52,7 @@ export default function CheckoutPage() {
   }, [user, profileLoaded]);
 
   const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  const shipping = total >= 50 ? 0 : 3;
+  const shipping = total >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
   const finalTotal = total + shipping;
 
   const [isSubmitting, setIsSubmitting] = useState(false);

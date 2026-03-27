@@ -7,7 +7,7 @@ import { Heart, ShoppingCart, User, Menu, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { useCartStore } from "@/store/useCartStore";
 import { useAuth } from "@/components/providers/AuthProvider";
-
+import { NAV_LINKS } from "@/lib/constants";
 
 export function Header() {
   const [mounted, setMounted] = useState(false);
@@ -18,7 +18,6 @@ export function Header() {
   
   // Prevent hydration mismatch
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -33,16 +32,6 @@ export function Header() {
   }, [isMobileMenuOpen]);
 
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
-
-  const navLinks = [
-    { href: "/", label: "الرئيسية" },
-    { href: "/products", label: "المنتجات" },
-    { href: "/about", label: "عن قطن" },
-    { href: "/contact", label: "تواصل معنا" },
-    { href: "/wishlist", label: "المفضلة" },
-    { href: "/account", label: "حسابي" },
-    { href: "/faq", label: "الأسئلة الشائعة" },
-  ];
 
   return (
     <>
@@ -64,10 +53,15 @@ export function Header() {
             </div>
 
             <nav className="hidden md:flex items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 gap-10">
-              <Link href="/" className="text-text hover:text-accent transition-colors font-bold text-base tracking-wide relative after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-accent hover:after:w-full after:transition-all after:duration-300">الرئيسية</Link>
-              <Link href="/products" className="text-text hover:text-accent transition-colors font-bold text-base tracking-wide relative after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-accent hover:after:w-full after:transition-all after:duration-300">المنتجات</Link>
-              <Link href="/about" className="text-text hover:text-accent transition-colors font-bold text-base tracking-wide relative after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-accent hover:after:w-full after:transition-all after:duration-300">عن قطن</Link>
-              <Link href="/contact" className="text-text hover:text-accent transition-colors font-bold text-base tracking-wide relative after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-accent hover:after:w-full after:transition-all after:duration-300">تواصل معنا</Link>
+              {NAV_LINKS.filter(link => ["/", "/products", "/about", "/contact"].includes(link.href)).map((link) => (
+                <Link 
+                  key={link.href} 
+                  href={link.href} 
+                  className="text-text hover:text-accent transition-colors font-bold text-base tracking-wide relative after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-accent hover:after:w-full after:transition-all after:duration-300"
+                >
+                  {link.label}
+                </Link>
+              ))}
             </nav>
 
             <div className="flex items-center gap-4 md:gap-6">
@@ -127,7 +121,7 @@ export function Header() {
 
         {/* Navigation Links */}
         <nav className="flex flex-col py-4">
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}

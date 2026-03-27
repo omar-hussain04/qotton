@@ -3,12 +3,15 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ProductCard } from "@/components/product/ProductCard";
-import { mockProducts } from "@/lib/data";
+import { getProducts } from "@/lib/db";
 
-export default function Home() {
+export default async function Home() {
+  const products = await getProducts();
+  const featuredProducts = products.slice(0, 3);
+
   return (
     <div className="relative w-full">
-      {/* Hero Section */}
+      {/* ... Hero Section ... */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 bg-primary">
           <Image
@@ -55,9 +58,13 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {mockProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {featuredProducts.length > 0 ? (
+              featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-10 text-muted">جاري تحميل المنتجات...</div>
+            )}
           </div>
 
           <div className="mt-8 text-center sm:hidden">

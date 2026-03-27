@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { WishlistSync } from "@/components/auth/WishlistSync";
 
 const lyonArabic = localFont({
   src: [
@@ -65,6 +66,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={`${tsHikayat.variable} ${lyonArabic.variable} ${cormorant.variable} antialiased selection:bg-accent selection:text-primary`}>
       <body className="min-h-screen flex flex-col font-body">
         <AuthProvider>
+          <WishlistSync />
           <Header />
           <main className="flex-1 shrink-0 bg-background relative z-0">
             {children}

@@ -3,23 +3,29 @@
 import { useState, useEffect } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductCard } from "@/components/product/ProductCard";
-import { mockProducts } from "@/lib/data";
+import { getProducts } from "@/lib/db";
 import { useWishlistStore } from "@/store/useWishlistStore";
 import { Heart } from "lucide-react";
 import Link from "next/link";
+import { Product } from "@/types";
 
 export default function WishlistPage() {
   const [mounted, setMounted] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
   const { items } = useWishlistStore();
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+    async function fetchProducts() {
+      const allProducts = await getProducts();
+      setProducts(allProducts);
+    }
+    fetchProducts();
   }, []);
 
   if (!mounted) return null;
 
-  const wishlistProducts = mockProducts.filter((p) => items.includes(p.id));
+  const wishlistProducts = products.filter((p) => items.includes(p.id));
 
   return (
     <Container className="py-12 min-h-[70vh]">

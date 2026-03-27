@@ -7,6 +7,7 @@ import { Heart } from "lucide-react";
 import { Product } from "@/types";
 import { Badge } from "@/components/ui/Badge";
 import { useWishlistStore } from "@/store/useWishlistStore";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
@@ -15,10 +16,10 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const [mounted, setMounted] = useState(false);
+  const { user } = useAuth();
   const { toggleItem, hasItem } = useWishlistStore();
   
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -48,7 +49,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <button 
           onClick={(e) => {
             e.preventDefault();
-            toggleItem(product.id);
+            toggleItem(product.id, user?.uid);
           }}
           className="absolute top-3 left-3 z-20 h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center text-text hover:text-accent transition-colors shadow-sm"
         >
@@ -79,7 +80,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Colors Available */}
         <div className="mt-3 flex gap-1.5">
-          {product.colors.map((color) => (
+          {product.colors.map((color: { name: string; hex: string }) => (
             <div 
               key={color.name}
               className="h-4 w-4 rounded-full border border-border/50 shadow-sm"

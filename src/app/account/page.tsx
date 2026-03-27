@@ -38,6 +38,7 @@ export default function AccountPage() {
   };
 
   const handleGoogleLogin = async () => {
+    setError(null);
     try {
       const loggedInUser = await loginWithGoogle();
       const { saveUserProfile } = await import("@/lib/db");
@@ -47,8 +48,17 @@ export default function AccountPage() {
         email: loggedInUser.email || "",
       });
     } catch (err: unknown) {
-      console.error(err);
-      setError("فشل تسجيل الدخول باستخدام جوجل.");
+      console.error("Google Login Error:", err);
+      const error = err as { code?: string, message?: string };
+      if (error.code === "auth/popup-closed-by-user") {
+        setError("تم إغلاق نافذة تسجيل الدخول قبل إكمال العملية.");
+      } else if (error.code === "auth/operation-not-allowed") {
+        setError("تسجيل الدخول باستخدام جوجل غير مفعل في إعدادات Firebase.");
+      } else if (error.code === "auth/unauthorized-domain") {
+        setError("هذا النطاق (Domain) غير مصرح له بتسجيل الدخول. تحقق من إعدادات Firebase.");
+      } else {
+        setError(`فشل تسجيل الدخول باستخدام جوجل: ${error.code || "خطأ غير معروف"}`);
+      }
     }
   };
 

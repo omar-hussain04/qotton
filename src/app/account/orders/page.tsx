@@ -7,12 +7,12 @@ import { Container } from "@/components/ui/Container";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Package, Calendar, MapPin, ChevronRight, Phone, User } from "lucide-react";
+import { Order } from "@/types";
 
 export default function OrdersPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -102,8 +102,7 @@ export default function OrdersPage() {
                   {/* Items List */}
                   <div className="md:col-span-2 space-y-4">
                     <h4 className="font-heading text-lg font-semibold text-text mb-3">المنتجات</h4>
-                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                    {order.items?.map((item: any, idx: number) => (
+                    {order.items?.map((item, idx) => (
                       <div key={idx} className="flex gap-4 items-center bg-background/50 p-3 rounded-lg border border-border/50">
                         <div className="flex-1">
                           <h5 className="font-medium text-text">{item.name}</h5>

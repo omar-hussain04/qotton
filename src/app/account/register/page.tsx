@@ -82,6 +82,7 @@ export default function RegisterPage() {
   };
 
   const handleGoogleLogin = async () => {
+    setError(null);
     try {
       const user = await loginWithGoogle();
       // Save Google user profile
@@ -93,8 +94,17 @@ export default function RegisterPage() {
       });
       router.push("/account");
     } catch (err: unknown) {
-      console.error(err);
-      setError("فشل التسجيل باستخدام جوجل. حاول مرة أخرى.");
+      console.error("Google Login Error:", err);
+      const error = err as { code?: string, message?: string };
+      if (error.code === "auth/popup-closed-by-user") {
+        setError("تم إغلاق نافذة تسجيل الدخول قبل إكمال العملية.");
+      } else if (error.code === "auth/operation-not-allowed") {
+        setError("تسجيل الدخول باستخدام جوجل غير مفعل في إعدادات Firebase.");
+      } else if (error.code === "auth/unauthorized-domain") {
+        setError("هذا النطاق (Domain) غير مصرح له بتسجيل الدخول. تحقق من إعدادات Firebase.");
+      } else {
+        setError(`فشل تسجيل الدخول باستخدام جوجل: ${error.code || "خطأ غير معروف"}`);
+      }
     }
   };
 
