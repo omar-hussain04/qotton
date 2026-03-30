@@ -40,7 +40,7 @@ export default function AboutPage() {
           <div className="flex justify-center mb-8 drop-shadow-2xl">
             <Image src="/qotton_logo.png" alt="قطن" width={260} height={90} className="w-[180px] md:w-[260px] h-auto object-contain" />
           </div>
-          <h1 className="text-4xl md:text-6xl font-heading font-bold text-text mb-4">عـــن <span className="text-[#fcc874]">قـطـن</span></h1>
+          <h1 className="text-4xl md:text-6xl font-heading font-bold text-text mb-4">عن <span className="text-[#fcc874]">قطن</span></h1>
           <div className="w-48 md:w-64 h-1 bg-[#fcc874]/50 mx-auto rounded-full mb-12" />
         </div>
 

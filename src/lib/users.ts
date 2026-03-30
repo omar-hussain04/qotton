@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "./firebase";
-import type { UserProfile } from "@/types";
+import type { UserProfile, CartItem } from "@/types";
 
 /** Fetch a user's profile from Firestore */
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
@@ -35,6 +35,17 @@ export async function updateUserWishlist(userId: string, wishlist: string[]): Pr
     await setDoc(docRef, { wishlist, updatedAt: Timestamp.now() }, { merge: true });
   } catch (error) {
     console.error("Error updating wishlist:", error);
+    throw error;
+  }
+}
+
+/** Update only the cart field for a user */
+export async function updateUserCart(userId: string, cart: CartItem[]): Promise<void> {
+  try {
+    const docRef = doc(db, "users", userId);
+    await setDoc(docRef, { cart, updatedAt: Timestamp.now() }, { merge: true });
+  } catch (error) {
+    console.error("Error updating cart:", error);
     throw error;
   }
 }

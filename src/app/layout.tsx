@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { WishlistSync } from "@/components/auth/WishlistSync";
+import { CartSync } from "@/components/auth/CartSync";
 
 const lyonArabic = localFont({
   src: [
@@ -67,6 +68,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col font-body">
         <AuthProvider>
           <WishlistSync />
+          <CartSync />
           <Header />
           <main className="flex-1 shrink-0 bg-background relative z-0">
             {children}

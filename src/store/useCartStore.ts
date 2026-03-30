@@ -8,6 +8,7 @@ interface CartState {
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
+  setItems: (items: CartItem[]) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
@@ -61,6 +62,7 @@ export const useCartStore = create<CartState>()(
         });
       },
       clearCart: () => set({ items: [] }),
+      setItems: (items) => set({ items }),
     }),
     {
       name: "qotton-cart-storage",

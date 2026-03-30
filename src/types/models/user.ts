@@ -1,4 +1,5 @@
 import type { Timestamp } from "firebase/firestore";
+import type { CartItem } from "./cart";
 
 export interface UserProfile {
   firstName?: string;
@@ -8,5 +9,6 @@ export interface UserProfile {
   address?: string;
   email?: string;
   wishlist?: string[];
+  cart?: CartItem[];
   updatedAt?: Timestamp;
 }
